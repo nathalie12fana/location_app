@@ -1,31 +1,27 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Bolt, User, X, Menu } from "lucide-react"
+import React, { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Bolt, User, X, Menu } from "lucide-react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs"
+  SignedOut,
+  SignedIn,
+  UserButton,
+  SignInButton,
+} from "@clerk/nextjs";
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen)
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   const menuItems = [
     { label: "Home", href: "/" },
     { label: "La villa", href: "/villa" },
     { label: "Offres", href: "/offres" },
     { label: "Contact", href: "/contact" },
-  ]
+  ];
 
   return (
     <nav className="bg-gray-800 bg-opacity-75 fixed w-full z-10 top-0 left-0 p-4">
@@ -37,11 +33,11 @@ export const Navbar = () => {
             <span className="text-lg font-semibold">Villa Lux</span>
           </div>
 
-          {/* Liens visibles en desktop */}
+          {/* Liens desktop */}
           <div className="hidden md:flex ml-10 space-x-6 text-white">
-            {menuItems.map((item, index) => (
+            {menuItems.map((item, idx) => (
               <Link
-                key={index}
+                key={idx}
                 href={item.href}
                 className="hover:text-yellow-500 transition-colors"
               >
@@ -51,7 +47,7 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Section utilisateur + thème (desktop) */}
+        {/* Utilisateur desktop */}
         <div className="hidden md:flex items-center gap-4">
           <SignedOut>
             <SignInButton mode="modal">
@@ -65,7 +61,7 @@ export const Navbar = () => {
           </SignedIn>
         </div>
 
-        {/* Bouton menu mobile */}
+        {/* Bouton mobile */}
         <div className="md:hidden flex items-center">
           <Button
             onClick={toggleMenu}
@@ -77,10 +73,10 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Menu mobile déroulant */}
+      {/* Menu mobile */}
       {isOpen && (
-        <div className="md:hidden absolute right-0 top-0 w-[300px] h-screen bg-gray-900 bg-opacity-95 text-white flex flex-col items-start p-6 space-y-6 z-40 transition-transform duration-300">
-          <div className="flex justify-between w-full items-center">
+        <div className="md:hidden absolute right-0 top-0 w-[300px] h-screen bg-gray-900 bg-opacity-95 text-white flex flex-col p-6 space-y-6 z-40 transition-transform duration-300">
+          <div className="flex justify-between items-center w-full">
             <h3 className="text-xl font-bold">Menu</h3>
             <Button
               onClick={toggleMenu}
@@ -91,13 +87,13 @@ export const Navbar = () => {
             </Button>
           </div>
 
-          {/* Liens du menu mobile */}
+          {/* Liens mobile */}
           <div className="flex flex-col space-y-4 mt-4">
-            {menuItems.map((item, index) => (
+            {menuItems.map((item, idx) => (
               <Link
-                key={index}
+                key={idx}
                 href={item.href}
-                onClick={() => setIsOpen(false)} // ferme le menu après clic
+                onClick={() => setIsOpen(false)}
                 className="hover:text-yellow-500 transition-colors text-lg"
               >
                 {item.label}
@@ -107,7 +103,7 @@ export const Navbar = () => {
 
           <div className="border-t border-gray-700 w-full my-4" />
 
-          {/* Zone utilisateur */}
+          {/* Utilisateur mobile */}
           <div className="space-y-4 w-full">
             <SignedOut>
               <SignInButton mode="modal">
@@ -120,15 +116,10 @@ export const Navbar = () => {
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
           </div>
-
-          {/* Bouton thème */}
-          <div className="mt-auto pt-4">
-  
-          </div>
         </div>
       )}
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
