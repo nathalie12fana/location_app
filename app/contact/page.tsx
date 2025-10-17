@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -8,40 +7,39 @@ import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSent, setIsSent] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  // Gestion des champs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Envoi EmailJS
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ⚠️ Remplace par tes vrais identifiants EmailJS
+    // Validation simple
+    if (!form.name || !form.email || !form.message) {
+      alert("Veuillez remplir tous les champs !");
+      return;
+    }
+
+    setStatus("loading");
+
     const SERVICE_ID = "service_4dn9zi7";
     const TEMPLATE_ID = "template_17jgf8n";
     const PUBLIC_KEY = "IOCIXn56nEQi48M1v";
 
     emailjs.init(PUBLIC_KEY);
 
-    emailjs
-      .send(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
-      .then(() => {
-        setIsSent(true);
-        setForm({ name: "", email: "", message: "" });
-        setTimeout(() => setIsSent(false), 3000);
-      })
-      .catch((error) => {
-        console.error("Erreur EmailJS:", error);
-        alert("Une erreur est survenue lors de l’envoi du message.");
-      });
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY);
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Erreur EmailJS:", error);
+      setStatus("error");
+    }
   };
 
   return (
@@ -85,17 +83,22 @@ export default function ContactPage() {
 
         <Button
           type="submit"
-          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
+          className={`w-full text-white transition-all ${
+            status === "loading"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-yellow-500 hover:bg-yellow-600"
+          }`}
+          disabled={status === "loading"}
         >
-          Envoyer le message
+          {status === "loading"
+            ? "Envoi en cours..."
+            : status === "success"
+            ? "✅ Envoyé !"
+            : status === "error"
+            ? "❌ Erreur"
+            : "Envoyer le message"}
         </Button>
       </form>
-
-      {isSent && (
-        <p className="text-green-600 text-center mt-6 font-medium">
-          ✅ Votre message a été envoyé avec succès !
-        </p>
-      )}
     </section>
   );
 }
