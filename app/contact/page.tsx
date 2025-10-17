@@ -1,10 +1,10 @@
+
 "use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
@@ -13,58 +13,48 @@ export default function ContactPage() {
     email: "",
     message: "",
   });
-
   const [isSent, setIsSent] = useState(false);
 
+  // Gestion des champs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Envoi EmailJS
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 👉 Ici tu peux connecter EmailJS ou ton API
-    console.log("Formulaire envoyé :", form);
+    // ⚠️ Remplace par tes vrais identifiants EmailJS
+    const SERVICE_ID = "service_4dn9zi7";
+    const TEMPLATE_ID = "template_17jgf8n";
+    const PUBLIC_KEY = "IOCIXn56nEQi48M1v";
+
+    emailjs.init(PUBLIC_KEY);
 
     emailjs
-  .send(
-    "service_4dn9zi7",      // Ton ID de service EmailJS
-    "template_17jgf8n",     // Ton ID de template EmailJS
-    form,
-    "IOCIXn56nEQi48M1v"       // Ta clé publique EmailJS
-  )
-  .then(() => {
-    setIsSent(true);
-  })
-  .catch((error) => console.error("Erreur EmailJS:", error));
-
-    // Simulation d’envoi réussi
-    setIsSent(true);
-    setForm({ name: "", email: "", message: "" });
-
-    // Après 3 secondes, on masque la confirmation
-    setTimeout(() => setIsSent(false), 3000);
+      .send(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+      .then(() => {
+        setIsSent(true);
+        setForm({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSent(false), 3000);
+      })
+      .catch((error) => {
+        console.error("Erreur EmailJS:", error);
+        alert("Une erreur est survenue lors de l’envoi du message.");
+      });
   };
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-16 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
-      <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+    <section className="max-w-3xl mx-auto px-6 py-16 bg-white rounded-2xl shadow-lg">
+      <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">
         Contactez-nous
       </h1>
-      <p className="text-gray-600 dark:text-gray-300 text-center mb-10">
-        Vous avez une question ou souhaitez réserver ? Remplissez le formulaire ci-dessous 📩
-      </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-700 dark:text-gray-200 mb-1">Nom complet</label>
+          <label className="block text-gray-700 mb-1">Nom complet</label>
           <Input
-            type="text"
             name="name"
-            placeholder="Votre nom"
             value={form.name}
             onChange={handleChange}
             required
@@ -72,11 +62,10 @@ export default function ContactPage() {
         </div>
 
         <div>
-          <label className="block text-gray-700 dark:text-gray-200 mb-1">Adresse email</label>
+          <label className="block text-gray-700 mb-1">Email</label>
           <Input
-            type="email"
             name="email"
-            placeholder="votre@email.com"
+            type="email"
             value={form.email}
             onChange={handleChange}
             required
@@ -84,11 +73,10 @@ export default function ContactPage() {
         </div>
 
         <div>
-          <label className="block text-gray-700 dark:text-gray-200 mb-1">Message</label>
+          <label className="block text-gray-700 mb-1">Message</label>
           <Textarea
             name="message"
             rows={5}
-            placeholder="Écrivez votre message ici..."
             value={form.message}
             onChange={handleChange}
             required
@@ -97,9 +85,8 @@ export default function ContactPage() {
 
         <Button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
         >
-          <Send className="w-4 h-4" />
           Envoyer le message
         </Button>
       </form>
