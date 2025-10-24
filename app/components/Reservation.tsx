@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function ReservationPage() {
+export default function Reservation() {
   const searchParams = useSearchParams();
   const apartmentName = searchParams.get("name") || "Appartement";
 
