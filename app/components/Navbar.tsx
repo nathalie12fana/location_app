@@ -18,13 +18,12 @@ export const Navbar = () => {
 
   const menuItems = [
     { label: "Home", href: "/" },
-    { label: "La villa", href: "/villa" },
-    { label: "Offres", href: "/offres" },
+    { label: "Appartement", href: "/appartement" },
     { label: "Contact", href: "/contact" },
   ];
 
   return (
-    <nav className="bg-gray-800 bg-opacity-75 fixed w-full z-10 top-0 left-0 p-4">
+    <nav className="bg-gray-800 bg-opacity-75 fixed w-full z-10 top-0 left-0 p-1">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
         {/* Logo + liens desktop */}
         <div className="flex items-center">

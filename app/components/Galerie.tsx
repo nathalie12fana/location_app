@@ -2,22 +2,19 @@
 import React, { useState } from 'react'
 const images = [
     "img2.png",
-    "img3.png",
-    "img4.png",
+    "img3.png", 
+    "img4.png",  
     "img5.png",
     "img6.png",
     "img7.png",
     "img8.png",
     "img9.png",
-
 ]
-
 export const Galerie = () => {
     const [selectedImage, setSelectedImage] = useState<string>(images[0]);
   return (
     <div className="max-w-[1200px] mx-auto my-12 px-4">
         <div className="flex flex-col md:flex-row md:items-start md:justify-center">
-
             <div className="w-full h-[300px] md:h-[600px] md:w-3/4">
                 <img src={selectedImage} alt= "Image villa" className="w-full h-full 
                 object-cover rounded-md  "/>
@@ -31,9 +28,7 @@ export const Galerie = () => {
                 ))}
 
             </div>
-
         </div>
-
     </div>
   )
 }

@@ -43,7 +43,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-16 bg-white rounded-2xl shadow-lg">
+    <section className="max-w-4xl mx-auto px-6 py-16 bg-white rounded-2xl shadow-lg ">
       <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">
         Contactez-nous
       </h1>

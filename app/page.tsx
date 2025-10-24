@@ -2,8 +2,8 @@ import Image from "next/image";
 import { Header } from "./components/Header";
 import Galerie from "./components/Galerie";
 import VillaInfos from "./components/VillaInfos";
-import Reservation from "./components/Reservation";
-import Footer from "./components/Footer";
+import Reservation from "./components/reservation";
+;
 
 export default function Home() {
   return (
@@ -18,7 +18,7 @@ export default function Home() {
         haskitchen={true} 
      />
      <Reservation/> 
-     <Footer/>  
+     
 
    </>
   );
